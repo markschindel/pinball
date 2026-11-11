@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mark Schindel Pinball</title>
+<meta name="description" content="Electro-mechanical and early solid-state pinball sales, service and repair in Peterborough, Ontario.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Placeholder fonts: swap for the card's fonts once we have them -->
+<link href="https://fonts.googleapis.com/css2?family=Smokum&family=Oswald:wght@400;500;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#f5e9be; --cream2:#efe0a8; --orange:#f28322; --teal:#3f918a; --teal-d:#1f7f7c;
+  --mustard:#e0b526; --sage:#80b4a0; --ink:#141414;
+  --display:'Smokum', 'Rockwell', serif; --cond:'Oswald', 'Arial Narrow', sans-serif;
+  --body:'Source Sans 3', system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font:17px/1.55 var(--body)}
+a{color:var(--teal-d)}
+img{max-width:100%;display:block}
+
+/* ---------- header / hero ---------- */
+.hero{position:relative;overflow:hidden;padding:2.2rem 1rem 0;text-align:center}
+.hero h1{font:400 clamp(3rem,13vw,7rem)/.9 var(--display);margin:0;letter-spacing:.02em}
+.hero .tag{font:500 clamp(1rem,3.6vw,1.6rem)/1.2 var(--cond);margin:.6rem 0 0}
+.hero .loc{font:400 1rem var(--cond);letter-spacing:.12em;text-transform:uppercase;color:var(--teal-d);margin:.4rem 0 0}
+.spark{position:absolute;width:110px;pointer-events:none}
+.spark.l{left:-10px;top:40px}.spark.r{right:-14px;top:-6px;width:140px}
+.hero h1,.hero p{position:relative;z-index:1}
+@media(max-width:700px){.spark{width:46px;opacity:.9}.spark.l{left:-4px;top:150px}.spark.r{width:56px;right:-6px;top:4px}}
+.playfield{display:block;width:100%;max-width:900px;margin:1rem auto 0}
+nav{position:sticky;top:0;z-index:5;background:var(--orange);border-top:4px solid var(--teal-d);border-bottom:4px solid var(--teal-d)}
+nav ul{list-style:none;margin:0 auto;padding:.4rem .8rem;display:flex;overflow-x:auto;white-space:nowrap;scrollbar-width:none;justify-content:safe center;gap:.2rem 1.2rem;max-width:1100px}
+nav a{font:500 1rem var(--cond);color:var(--ink);text-decoration:none;text-transform:uppercase;letter-spacing:.05em;padding:.3rem .2rem;display:inline-block}
+nav a:hover{color:var(--cream)}
+
+/* ---------- sections ---------- */
+main{max-width:1100px;margin:0 auto;padding:0 1rem 2rem}
+section{padding:2.6rem 0 1rem;scroll-margin-top:3.4rem}
+h2{font:400 clamp(2.2rem,7vw,3.4rem)/1 var(--display);margin:0 0 .3rem}
+.lede{font:400 1.15rem/1.4 var(--cond);margin:0 0 1.4rem;max-width:44rem}
+.rule{height:4px;background:var(--teal-d);border-radius:2px;width:90px;margin:.6rem 0 1rem}
+
+.services{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.svc{background:var(--cream2);border-left:8px solid var(--mustard);border-radius:10px;padding:1rem 1.1rem}
+.svc:nth-child(2){border-color:var(--orange)}.svc:nth-child(3){border-color:var(--teal)}
+.svc h3{font:600 1.25rem var(--cond);margin:0 0 .3rem;text-transform:uppercase;letter-spacing:.03em}
+.svc p{margin:0}
+
+.grid{display:grid;gap:1.2rem;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.card{background:#fffaf0;border-radius:14px;overflow:hidden;box-shadow:0 2px 0 var(--teal-d),0 6px 18px rgba(0,0,0,.08);cursor:pointer;display:flex;flex-direction:column;transition:transform .15s}
+.card:hover{transform:translateY(-3px)}
+.card:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.thumb{aspect-ratio:4/3;background:var(--teal);position:relative;display:grid;place-items:center;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;object-position:50% 12%}
+.ph{text-align:center;color:var(--cream);padding:1rem}
+.ph b{display:block;font:400 2.1rem/1 var(--display)}
+.ph span{font:500 .9rem var(--cond);letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+.badge{position:absolute;top:.6rem;left:.6rem;background:var(--orange);color:var(--ink);font:600 .8rem var(--cond);text-transform:uppercase;letter-spacing:.08em;padding:.2rem .55rem;border-radius:4px}
+.badge.sold{background:var(--ink);color:var(--cream)}
+.count{position:absolute;bottom:.5rem;right:.6rem;background:rgba(0,0,0,.55);color:#fff;font:500 .8rem var(--cond);padding:.1rem .5rem;border-radius:4px}
+.body{padding:.8rem 1rem 1rem;flex:1;display:flex;flex-direction:column}
+.body h3{font:600 1.35rem/1.15 var(--cond);margin:0}
+.meta{font:400 .95rem var(--cond);color:#555;margin:.1rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em}
+.body p{margin:0 0 .6rem;font-size:.97rem}
+.price{margin-top:auto;font:600 1.2rem var(--cond);color:var(--teal-d)}
+
+.note{background:var(--cream2);border-radius:10px;padding:.9rem 1.1rem;margin:0 0 1.2rem;border:2px dashed var(--teal)}
+
+/* ---------- contact ---------- */
+.contact{background:var(--orange);border-radius:18px;padding:1.6rem;display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));align-items:center;border:4px solid var(--teal-d)}
+.contact .big{font:500 clamp(1.4rem,5vw,2rem) var(--cond);margin:0}
+.contact a{color:var(--ink);text-decoration:none}
+.contact a:hover{text-decoration:underline}
+footer{text-align:center;font:400 .9rem var(--cond);padding:1.5rem 1rem 2.5rem;color:#555}
+
+/* ---------- detail dialog ---------- */
+dialog{border:0;border-radius:16px;padding:0;width:min(960px,96vw);max-height:94vh;background:#fffaf0;color:var(--ink)}
+dialog::backdrop{background:rgba(20,20,20,.75)}
+.dlg{display:flex;flex-direction:column;max-height:94vh}
+.dlg-head{display:flex;justify-content:space-between;align-items:start;gap:1rem;padding:1rem 1.2rem .4rem}
+.dlg-head h3{font:400 2.2rem/1 var(--display);margin:0}
+.x{background:var(--ink);color:var(--cream);border:0;border-radius:50%;width:2.4rem;height:2.4rem;font-size:1.3rem;cursor:pointer;flex:none}
+.dlg-scroll{overflow:auto;padding:0 1.2rem 1.2rem}
+.stage{background:#111;border-radius:10px;height:min(68vh,680px);display:grid;place-items:center;position:relative;overflow:hidden}
+.stage img{width:100%;height:100%;object-fit:contain}
+.stage .ph{color:var(--cream)}
+.nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.5);color:#fff;border:0;width:2.6rem;height:2.6rem;border-radius:50%;font-size:1.4rem;cursor:pointer}
+.nav-btn.p{left:.5rem}.nav-btn.n{right:.5rem}
+.caption{font:400 .95rem var(--cond);color:#555;margin:.4rem 0 0;min-height:1.3em}
+.strip{display:flex;gap:.4rem;overflow-x:auto;padding:.5rem 0}
+.strip button{flex:none;width:72px;height:54px;border:2px solid transparent;border-radius:6px;padding:0;overflow:hidden;cursor:pointer;background:#ddd}
+.strip button.on{border-color:var(--orange)}
+.strip img{width:100%;height:100%;object-fit:cover}
+.cols{display:grid;gap:1.2rem;grid-template-columns:1fr;margin-top:.6rem}
+@media(min-width:760px){.cols{grid-template-columns:3fr 2fr}}
+.facts{width:100%;border-collapse:collapse;font-size:.95rem}
+.facts th{text-align:left;font:500 .85rem var(--cond);text-transform:uppercase;letter-spacing:.06em;color:var(--teal-d);padding:.35rem .6rem .35rem 0;vertical-align:top;white-space:nowrap}
+.facts td{padding:.35rem 0;border-bottom:1px solid #e6dcc0}
+.links a{display:inline-block;margin:.6rem .8rem 0 0;font:500 1rem var(--cond)}
+.vid{aspect-ratio:16/9;width:100%;border:0;border-radius:10px;margin-top:.8rem}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="spark l" viewBox="0 0 100 200" aria-hidden="true"><path d="M50 0 L56 88 L100 100 L56 112 L50 200 L44 112 L0 100 L44 88Z" fill="#e0b526"/><path d="M62 40 L66 92 L96 100 L66 108 L62 160 L58 108 L28 100 L58 92Z" fill="#80b4a0"/></svg>
+  <svg class="spark r" viewBox="0 0 100 200" aria-hidden="true"><path d="M50 0 L56 88 L100 100 L56 112 L50 200 L44 112 L0 100 L44 88Z" fill="#e0b526"/><path d="M38 40 L42 92 L72 100 L42 108 L38 160 L34 108 L4 100 L34 92Z" fill="#80b4a0"/></svg>
+  <h1>Mark Schindel</h1>
+  <p class="tag">Electro-Mechanical &amp; Early Solid-State Pinball<br>Sales, Service, and Repair</p>
+  <p class="loc">Peterborough, Ontario</p>
+  <svg class="playfield" viewBox="0 0 900 230" aria-hidden="true">
+    <path d="M0 150 H190 Q240 150 270 180 L330 230 H0Z" fill="#f28322"/>
+    <path d="M900 150 H710 Q660 150 630 180 L570 230 H900Z" fill="#f28322"/>
+    <path d="M0 132 H190 Q245 132 280 170 L340 230" fill="none" stroke="#1f7f7c" stroke-width="6"/>
+    <path d="M900 132 H710 Q655 132 620 170 L560 230" fill="none" stroke="#1f7f7c" stroke-width="6"/>
+    <g transform="rotate(26 260 60)"><rect x="200" y="30" width="220" height="56" rx="28" fill="#e0b526"/><rect x="226" y="44" width="160" height="28" rx="14" fill="#80b4a0"/></g>
+    <g transform="rotate(-26 640 60)"><rect x="480" y="30" width="220" height="56" rx="28" fill="#e0b526"/><rect x="514" y="44" width="160" height="28" rx="14" fill="#80b4a0"/></g>
+    <circle cx="450" cy="40" r="40" fill="#f28322"/><circle cx="456" cy="44" r="31" fill="#3f918a"/>
+  </svg>
+</header>
+
+<nav><ul>
+  <li><a href="#services">Services</a></li>
+  <li><a href="#for-sale">For Sale</a></li>
+  <li><a href="#projects">Project Machines</a></li>
+  <li><a href="#restorations">Restorations</a></li>
+  <li><a href="#contact">Contact</a></li>
+</ul></nav>
+
+<main>
+  <section id="services">
+    <h2>Services</h2><div class="rule"></div>
+    <p class="lede">Classic pinball from the electro-mechanical era through early solid-state, kept playing the way it was meant to.</p>
+    <div class="services">
+      <div class="svc"><h3>House Calls</h3><p>Repairs and tune-ups on your machine at your home or business: cleaning, adjustments, switch and relay work, board troubleshooting, and getting a tired game playing well again.</p></div>
+      <div class="svc"><h3>Shop Work</h3><p>For more serious jobs I'll pick up your machine, bring it to the shop and deliver it back when it's done, within a reasonable distance of Peterborough.</p></div>
+      <div class="svc"><h3>Commissioned Restorations</h3><p>Buy one of my project machines and choose how far to take it, from "just get it playing well" to a full restoration.</p></div>
+    </div>
+  </section>
+
+  <section id="for-sale">
+    <h2>For Sale</h2><div class="rule"></div>
+    <p class="lede">Shopped, playing machines ready for a new home. Tap any machine for photos and details.</p>
+    <div class="grid" data-cat="sale"></div>
+  </section>
+
+  <section id="projects">
+    <h2>Project Machines</h2><div class="rule"></div>
+    <p class="note"><b>Available as commissions.</b> Pick a machine and the level of work, from "just get it playing well" to a full restoration, and I'll quote it.</p>
+    <div class="grid" data-cat="project"></div>
+  </section>
+
+  <section id="restorations">
+    <h2>Restorations</h2><div class="rule"></div>
+    <p class="lede">Customer machines I've restored and sent home. Tap one to see the work.</p>
+    <div class="grid" data-cat="restored"></div>
+  </section>
+
+  <section id="contact">
+    <div class="contact">
+      <div><h2 style="margin:0">Get in touch</h2><p style="margin:.3rem 0 0;font:400 1.1rem var(--cond)">Questions, quotes, or to come see a machine.</p></div>
+      <div>
+        <p class="big"><a href="mailto:mark@schindel.ca">mark@schindel.ca</a></p>
+        <p class="big"><a href="tel:+17059912293">705-991-2293</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>© <span id="yr"></span> Mark Schindel · Peterborough, Ontario</footer>
+
+<dialog id="dlg" aria-labelledby="dlgTitle">
+  <div class="dlg">
+    <div class="dlg-head"><div><h3 id="dlgTitle"></h3><div class="meta" id="dlgMeta"></div></div><button class="x" id="dlgClose" aria-label="Close">×</button></div>
+    <div class="dlg-scroll">
+      <div class="stage" id="stage"></div>
+      <p class="caption" id="cap"></p>
+      <div class="strip" id="strip"></div>
+      <div class="cols">
+        <div id="desc"></div>
+        <div><table class="facts" id="facts"></table><div class="links" id="links"></div></div>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+/* =====================================================================
+   MACHINE LIST: edit here to add, sell or update machines.
+   cat:     "sale" | "project" | "restored"
+   status:  optional badge, e.g. "Sold", "Pending", "New"
+   photos:  [{src:"photos/big-valley/01.jpg", cap:"Playfield after cleaning"}]
+            (each photo needs a matching small copy named 01-t.jpg)
+   facts:   tombstone details (IPDB etc.), shown as a table
+   ipdb:    IPDB machine id number (for the "More on IPDB" link)
+   album:   optional link to a full Google Photos album
+   video:   optional YouTube video id
+   ===================================================================== */
+const MACHINES = [
+  // ---- For Sale ----
+  {cat:"sale", year:1970, maker:"Bally",    name:"Big Valley", ipdb:289, price:"",
+   blurb:"A four-player Bally western and a real oddity: the only Bally electro-mechanical with multiball (three balls) and the only one with 3-inch flippers. It also has four pop bumpers, two kick-out holes and an up-post between the flippers.",
+   facts:{"Manufacturer":"Bally Manufacturing Corp.", "Date":"May 1970", "Model no.":"880", "Type":"Electro-mechanical", "Players":"4",
+          "Production":"2,500 (confirmed)", "Theme":"Old West", "Design":"Ted Zale", "Art":"Christian Marche"}, photos:[{src:"photos/big-valley/01.jpg", cap:"Backglass and playfield"}]},
+  {cat:"sale", year:1971, maker:"Gottlieb", name:"Sheriff", ipdb:2116, price:"",
+   blurb:"A four-player Gottlieb western with ten drop targets, a bank of parallel rollover lanes down the right side and an end-of-ball bonus. Gottlieb also built it as the two-player Lawman.",
+   facts:{"Manufacturer":"D. Gottlieb & Co.", "Date":"September 1971", "Model no.":"319", "Type":"Electro-mechanical", "Players":"4",
+          "Production":"2,900 (confirmed)", "Theme":"Old West, law enforcement", "Design":"Ed Krynski", "Art":"Gordon Morison"}, photos:[{src:"photos/sheriff/01.jpg", cap:"Backglass and playfield"}]},
+  {cat:"sale", year:1973, maker:"Williams", name:"Gulfstream", ipdb:1094, price:"",
+   blurb:"A single-player Norm Clark beach game built around the Magic Square in the centre of the playfield: light all four corners for the big award. It and its add-a-ball twin Tropic Fun were the first Williams games with the \"gear\" style pop bumper caps.",
+   facts:{"Manufacturer":"Williams Electronics", "Date":"October 23, 1972", "Model no.":"417", "Type":"Electro-mechanical", "Players":"1",
+          "Production":"4,175 (confirmed)", "Theme":"Water sports", "Design":"Norm Clark", "Art":"Christian Marche", "Sound":"3 chimes, knocker"}, photos:[{src:"photos/gulfstream/01.jpg", cap:"Backglass and playfield"}]},
+  {cat:"sale", year:1976, maker:"Gottlieb", name:"Buccaneer", ipdb:391, price:"",
+   blurb:"A single-player pirate game from Gottlieb's classic Krynski/Morison team, in the wedge-head cabinet, with a spinning target, three pop bumpers and the ship's-wheel number sequence in the centre.",
+   facts:{"Manufacturer":"D. Gottlieb & Co.", "Date":"June 1976", "Model no.":"390", "Type":"Electro-mechanical (wedge head)", "Players":"1",
+          "Production":"3,812 (confirmed)", "Theme":"Pirates", "Design":"Ed Krynski", "Art":"Gordon Morison", "Sound":"3 chimes, knocker"}, photos:[{src:"photos/buccaneer/01.jpg", cap:"Backglass and playfield"}]},
+  {cat:"sale", year:1977, maker:"Stern",    name:"Stingray", ipdb:2377, price:"",
+   blurb:"An early Stern solid-state scuba-diving game, designed by pinball historian Roger Sharpe with Sam Stern. Four players, a five-bank of drop targets, a spinner and two kick-out holes.",
+   facts:{"Manufacturer":"Stern Electronics, Chicago", "Date":"December 1977", "Model no.":"102", "Type":"Solid state (Stern M-100)", "Players":"4",
+          "Production":"3,006 (confirmed)", "Theme":"Scuba diving", "Design":"Roger Sharpe, Sam Stern, Mike Kubin", "Sound":"4 bells, knocker"}, photos:[{src:"photos/stingray/01.jpg", cap:"Backglass and playfield"}]},
+  // ---- Project machines ----
+  {cat:"project", year:1966, maker:"Williams", name:"8 Ball", ipdb:764,
+   blurb:"A two-player billiards game: one player goes after the solids, the other the stripes, with each player's progress tracked on the backglass and playfield. Clear your set to light the 8 ball for an extra ball. Look for the cufflinks on the backglass players, initialled N.C. and S.K., likely a nod to designer Norm Clark and Steve Kordek.",
+   facts:{"Manufacturer":"Williams Electronic Mfg. Corp.", "Date":"January 17, 1966", "Model no.":"317", "Type":"Electro-mechanical",
+          "Players":"2", "Production":"3,250 (confirmed)", "Theme":"Billiards", "Design":"Norm Clark"}, photos:[{src:"photos/8-ball/01.jpg", cap:"Backglass and playfield"}]},
+  {cat:"project", year:1972, maker:"Gottlieb", name:"Grand Slam", ipdb:1078,
+   blurb:"A single-player Gottlieb baseball game with three roto-targets and three kick-out holes, from designer Ed Krynski and artist Gordon Morison. Its add-a-ball twin is World Series.",
+   facts:{"Manufacturer":"D. Gottlieb & Co.", "Date":"July 1972", "Model no.":"337", "Type":"Electro-mechanical", "Players":"1",
+          "Production":"3,600 (confirmed)", "Theme":"Baseball", "Design":"Ed Krynski", "Art":"Gordon Morison"}, photos:[]},
+  {cat:"project", year:1977, maker:"Gottlieb", name:"Bronco", ipdb:388,
+   blurb:"A four-player Gottlieb western from Ed Krynski and Gordon Morison, with three star rollovers, a three-bank of drop targets, an end-of-ball bonus and, unusually, no slingshots. Its two-player version is Mustang.",
+   facts:{"Manufacturer":"D. Gottlieb & Co.", "Date":"March 1977", "Model no.":"396", "Type":"Electro-mechanical", "Players":"4",
+          "Production":"9,454 (confirmed)", "Theme":"Old West", "Design":"Ed Krynski", "Art":"Gordon Morison", "Sound":"3 chimes, knocker"}, photos:[]},
+  // ---- Restorations ----
+  {cat:"restored", year:1967, maker:"Gottlieb", name:"King of Diamonds", ipdb:1372,
+   blurb:"A Gottlieb classic with a mechanical backbox animation: playing cards drop down on the backglass as you collect them. It has five carousel roto-targets in a wedge-head cabinet, and it was the last Gottlieb to use a printed \"1\" for the thousands digit of the score.",
+   facts:{"Manufacturer":"D. Gottlieb & Co.", "Date":"January 1967", "Model no.":"233", "Type":"Electro-mechanical (wedge head)", "Players":"1",
+          "Production":"3,200 (confirmed)", "Theme":"Cards / gambling", "Design":"Ed Krynski", "Art":"Art Stenholm", "Sound":"3 bells, knocker"}, photos:[{src:"photos/king-of-diamonds/01.jpg", cap:"Backglass and playfield"}]},
+  {cat:"restored", year:1980, maker:"Stern",    name:"Flight 2000", ipdb:887,
+   blurb:"Stern's first talking pinball, with a 3-ball multiball where each ball works its way through a maze-like \"lift-off\" lock before launching to the top arch.",
+   facts:{"Manufacturer":"Stern Electronics, Inc.", "Date":"August 1980", "Model no.":"128", "Type":"Solid state (Stern M-200), widebody",
+          "Players":"4", "Production":"6,301 (confirmed)", "Theme":"Outer space", "Design":"Harry Williams",
+          "Art":"Gerry Simkus, Doug Watson", "Software":"Bill Pfutzenreuter", "Sound":"Speech via VSU-100 voice board"},
+   photos:[]},
+];
+
+const thumb = p => p.thumb || p.src.replace(/\.jpg$/i, "-t.jpg");
+const COLORS = ["#3f918a","#f28322","#e0b526","#1f7f7c","#80b4a0"];
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const placeholder = (m, i) => `<div class="ph"><b>${esc(m.name)}</b><span>${m.year} · ${esc(m.maker)}</span></div>`;
+
+function render(){
+  document.querySelectorAll(".grid").forEach(g => {
+    const list = MACHINES.filter(m => m.cat === g.dataset.cat);
+    g.innerHTML = list.map((m) => {
+      const i = MACHINES.indexOf(m);
+      const cover = m.photos[0] ? `<img src="${esc(thumb(m.photos[0]))}" alt="${esc(m.name)}" loading="lazy">` : placeholder(m);
+      const badge = m.status ? `<span class="badge ${/sold/i.test(m.status)?"sold":""}">${esc(m.status)}</span>` : "";
+      const count = m.photos.length > 1 ? `<span class="count">${m.photos.length} photos</span>` : "";
+      const price = m.cat === "sale" ? `<div class="price">${m.price ? esc(m.price) : "Ask for price"}</div>`
+                  : m.cat === "project" ? `<div class="price">Ask about a commission</div>` : "";
+      return `<article class="card" tabindex="0" role="button" data-i="${i}" aria-label="${esc(m.name)} details">
+        <div class="thumb" style="background:${COLORS[i % COLORS.length]}">${cover}${badge}${count}</div>
+        <div class="body"><h3>${esc(m.name)}</h3><div class="meta">${m.year} · ${esc(m.maker)}</div>
+        ${m.blurb ? `<p>${esc(m.blurb)}</p>` : ""}${price}</div></article>`;
+    }).join("");
+  });
+}
+
+/* ---------- detail dialog ---------- */
+const dlg = document.getElementById("dlg");
+let cur = null, idx = 0;
+function show(n){
+  const p = cur.photos; if(!p.length) return;
+  idx = (n + p.length) % p.length;
+  document.getElementById("stage").innerHTML = `<img src="${esc(p[idx].src)}" alt="${esc(cur.name)} photo ${idx+1}">` +
+    (p.length > 1 ? `<button class="nav-btn p" aria-label="Previous">‹</button><button class="nav-btn n" aria-label="Next">›</button>` : "");
+  document.getElementById("cap").textContent = p[idx].cap || `${idx+1} / ${p.length}`;
+  document.querySelectorAll("#strip button").forEach((b,k) => b.classList.toggle("on", k === idx));
+}
+function open(i){
+  cur = MACHINES[i];
+  document.getElementById("dlgTitle").textContent = cur.name;
+  document.getElementById("dlgMeta").textContent = `${cur.year} · ${cur.maker}`;
+  const stage = document.getElementById("stage");
+  if(cur.photos.length){
+    document.getElementById("strip").innerHTML = cur.photos.length < 2 ? "" : cur.photos.map((p,k) => `<button data-k="${k}" aria-label="Photo ${k+1}"><img src="${esc(thumb(p))}" alt="" loading="lazy"></button>`).join("");
+    show(0);
+  } else {
+    stage.innerHTML = placeholder(cur); stage.style.background = COLORS[i % COLORS.length];
+    document.getElementById("strip").innerHTML = ""; document.getElementById("cap").textContent = "Photos coming soon.";
+  }
+  let d = cur.blurb ? `<p>${esc(cur.blurb)}</p>` : "";
+  if(cur.cat === "sale") d += `<p class="price">${cur.price ? esc(cur.price) : "Ask for price"}</p>`;
+  if(cur.cat === "project") d += `<p>Available as a commission, from a playable tune-up to a full restoration. Get in touch for a quote.</p>`;
+  if(cur.video) d += `<iframe class="vid" src="https://www.youtube-nocookie.com/embed/${esc(cur.video)}" allowfullscreen loading="lazy" title="${esc(cur.name)} video"></iframe>`;
+  document.getElementById("desc").innerHTML = d;
+  const f = Object.entries(cur.facts || {});
+  document.getElementById("facts").innerHTML = f.map(([k,v]) => `<tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>`).join("");
+  let l = "";
+  if(cur.ipdb) l += `<a href="https://www.ipdb.org/machine.cgi?id=${esc(cur.ipdb)}" target="_blank" rel="noopener">More on IPDB →</a>`;
+  if(cur.album) l += `<a href="${esc(cur.album)}" target="_blank" rel="noopener">Full photo album →</a>`;
+  document.getElementById("links").innerHTML = l;
+  dlg.showModal();
+}
+document.addEventListener("click", e => {
+  const c = e.target.closest(".card"); if(c) return open(+c.dataset.i);
+  if(e.target.closest(".nav-btn.p")) return show(idx-1);
+  if(e.target.closest(".nav-btn.n")) return show(idx+1);
+  const t = e.target.closest("#strip button"); if(t) return show(+t.dataset.k);
+  if(e.target.id === "dlgClose" || e.target === dlg) dlg.close();
+});
+document.addEventListener("keydown", e => {
+  if(e.key === "Enter" && e.target.classList?.contains("card")) open(+e.target.dataset.i);
+  if(dlg.open && cur?.photos.length > 1){ if(e.key === "ArrowLeft") show(idx-1); if(e.key === "ArrowRight") show(idx+1); }
+});
+/* swipe on the photo */
+let sx = null;
+document.getElementById("stage").addEventListener("touchstart", e => sx = e.touches[0].clientX, {passive:true});
+document.getElementById("stage").addEventListener("touchend", e => { if(sx === null || !cur?.photos.length) return; const dx = e.changedTouches[0].clientX - sx; if(Math.abs(dx) > 40) show(idx + (dx < 0 ? 1 : -1)); sx = null; });
+
+document.getElementById("yr").textContent = new Date().getFullYear();
+render();
+</script>
+</body>
+</html>
