@@ -67,6 +67,8 @@ h2{font:400 clamp(2.2rem,7vw,3.4rem)/1 var(--display);margin:0 0 .3rem}
 .meta{font:400 .95rem var(--cond);color:#555;margin:.1rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em}
 .body p{margin:0 0 .6rem;font-size:.97rem}
 .price{margin-top:auto;font:600 1.2rem var(--cond);color:var(--teal-d)}
+.contact-link{color:var(--teal-d);text-decoration:underline;text-underline-offset:3px}
+.contact-link:hover{color:var(--orange)}
 
 .note{background:var(--cream2);border-radius:10px;padding:.9rem 1.1rem;margin:0 0 1.2rem;border:2px dashed var(--teal)}
 
@@ -237,7 +239,13 @@ const MACHINES = [
   {cat:"project", year:1972, maker:"Gottlieb", name:"Grand Slam", ipdb:1078,
    blurb:"A single-player Gottlieb baseball game with three roto-targets and three kick-out holes, from designer Ed Krynski and artist Gordon Morison. Its add-a-ball twin is World Series.",
    facts:{"Manufacturer":"D. Gottlieb & Co.", "Date":"July 1972", "Model no.":"337", "Type":"Electro-mechanical", "Players":"1",
-          "Production":"3,600 (confirmed)", "Theme":"Baseball", "Design":"Ed Krynski", "Art":"Gordon Morison"}, photos:[]},
+          "Production":"3,600 (confirmed)", "Theme":"Baseball", "Design":"Ed Krynski", "Art":"Gordon Morison"},
+   photos:[
+      {src:"photos/grand-slam/01.jpg", cap:"Cabinet and backglass, as it sits"},
+      {src:"photos/grand-slam/02.jpg", cap:"The backglass"},
+      {src:"photos/grand-slam/03.jpg", cap:"The playfield"},
+      {src:"photos/grand-slam/04.jpg", cap:"In the shop, waiting its turn"},
+   ]},
   {cat:"project", year:1977, maker:"Gottlieb", name:"Bronco", ipdb:388,
    blurb:"A four-player Gottlieb western from Ed Krynski and Gordon Morison, with three star rollovers, a three-bank of drop targets, an end-of-ball bonus and, unusually, no slingshots. Its two-player version is Mustang.",
    facts:{"Manufacturer":"D. Gottlieb & Co.", "Date":"March 1977", "Model no.":"396", "Type":"Electro-mechanical", "Players":"4",
@@ -324,8 +332,8 @@ function render(){
       const cover = m.photos[0] ? `<img src="${esc(thumb(m.photos[0]))}" alt="${esc(m.name)}" loading="lazy">` : placeholder(m);
       const badge = m.status ? `<span class="badge ${/sold/i.test(m.status)?"sold":""}">${esc(m.status)}</span>` : "";
       const count = m.photos.length > 1 ? `<span class="count">${m.photos.length} photos${m.photos.some(isVid)?" + video":""}</span>` : "";
-      const price = m.cat === "sale" ? `<div class="price">${m.price ? esc(m.price) : "Ask for price"}</div>`
-                  : m.cat === "project" ? `<div class="price">Ask about a commission</div>`
+      const price = m.cat === "sale" ? `<div class="price">${m.price ? esc(m.price) : '<a class="contact-link" href="#contact">Contact me for a price</a>'}</div>`
+                  : m.cat === "project" ? `<div class="price"><a class="contact-link" href="#contact">Contact me about a commission</a></div>`
                   : m.cat === "collection" ? `<div class="price">Not for sale</div>` : "";
       return `<article class="card" tabindex="0" role="button" data-i="${i}" aria-label="${esc(m.name)} details">
         <div class="thumb" style="background:${COLORS[i % COLORS.length]}">${cover}${badge}${count}</div>
@@ -361,8 +369,8 @@ function open(i){
     document.getElementById("strip").innerHTML = ""; document.getElementById("cap").textContent = "Photos coming soon.";
   }
   let d = cur.blurb ? `<p>${esc(cur.blurb)}</p>` : "";
-  if(cur.cat === "sale") d += `<p class="price">${cur.price ? esc(cur.price) : "Ask for price"}</p>`;
-  if(cur.cat === "project") d += `<p>Available as a commission, from a playable tune-up to a full restoration. Get in touch for a quote.</p>`;
+  if(cur.cat === "sale") d += `<p class="price">${cur.price ? esc(cur.price) : '<a class="contact-link" href="#contact">Contact me for a price</a>'}</p>`;
+  if(cur.cat === "project") d += `<p>Available as a commission, from a playable tune-up to a full restoration. </p><p class="price"><a class="contact-link" href="#contact">Contact me about a commission</a></p>`;
   if(cur.video) d += `<iframe class="vid" src="https://www.youtube-nocookie.com/embed/${esc(cur.video)}" allowfullscreen loading="lazy" title="${esc(cur.name)} video"></iframe>`;
   document.getElementById("desc").innerHTML = d;
   const f = Object.entries(cur.facts || {});
@@ -374,6 +382,8 @@ function open(i){
   dlg.showModal();
 }
 document.addEventListener("click", e => {
+  if(e.target.closest(".contact-link")){ e.preventDefault(); if(dlg.open) dlg.close();
+    document.getElementById("contact").scrollIntoView({behavior:"smooth"}); return; }
   const c = e.target.closest(".card"); if(c) return open(+c.dataset.i);
   if(e.target.closest(".nav-btn.p")) return show(idx-1);
   if(e.target.closest(".nav-btn.n")) return show(idx+1);
