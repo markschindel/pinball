@@ -86,7 +86,7 @@ dialog::backdrop{background:rgba(20,20,20,.75)}
 .x{background:var(--ink);color:var(--cream);border:0;border-radius:50%;width:2.4rem;height:2.4rem;font-size:1.3rem;cursor:pointer;flex:none}
 .dlg-scroll{overflow:auto;padding:0 1.2rem 1.2rem}
 .stage{background:#111;border-radius:10px;height:min(68vh,680px);display:grid;place-items:center;position:relative;overflow:hidden}
-.stage img{width:100%;height:100%;object-fit:contain}
+.stage img,.stage video{width:100%;height:100%;object-fit:contain}
 .stage .ph{color:var(--cream)}
 .nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.5);color:#fff;border:0;width:2.6rem;height:2.6rem;border-radius:50%;font-size:1.4rem;cursor:pointer}
 .nav-btn.p{left:.5rem}.nav-btn.n{right:.5rem}
@@ -95,6 +95,7 @@ dialog::backdrop{background:rgba(20,20,20,.75)}
 .strip button{flex:none;width:72px;height:54px;border:2px solid transparent;border-radius:6px;padding:0;overflow:hidden;cursor:pointer;background:#ddd}
 .strip button.on{border-color:var(--orange)}
 .strip img{width:100%;height:100%;object-fit:cover}
+.strip button.vid{position:relative}.strip button.vid::after{content:'▶';position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:1.2rem;text-shadow:0 0 4px #000}
 .cols{display:grid;gap:1.2rem;grid-template-columns:1fr;margin-top:.6rem}
 @media(min-width:760px){.cols{grid-template-columns:3fr 2fr}}
 .facts{width:100%;border-collapse:collapse;font-size:.95rem}
@@ -252,10 +253,34 @@ const MACHINES = [
    facts:{"Manufacturer":"Stern Electronics, Inc.", "Date":"August 1980", "Model no.":"128", "Type":"Solid state (Stern M-200), widebody",
           "Players":"4", "Production":"6,301 (confirmed)", "Theme":"Outer space", "Design":"Harry Williams",
           "Art":"Gerry Simkus, Doug Watson", "Software":"Bill Pfutzenreuter", "Sound":"Speech via VSU-100 voice board"},
-   photos:[]},
+   photos:[
+      {src:"photos/flight-2000/01.jpg", cap:"Finished and back in action"},
+      {src:"photos/flight-2000/02.jpg", cap:"The day it arrived"},
+      {src:"photos/flight-2000/03.jpg", cap:"The backglass, as it came"},
+      {src:"photos/flight-2000/04.jpg", cap:"First power-up at home"},
+      {src:"photos/flight-2000/lights.mp4", cap:"Lights test (video)"},
+      {src:"photos/flight-2000/05.jpg", cap:"The shop supervisor inspects the backglass"},
+      {src:"photos/flight-2000/06.jpg", cap:"Opened up: backbox and cabinet wiring"},
+      {src:"photos/flight-2000/07.jpg", cap:"Under the playfield, before the work"},
+      {src:"photos/flight-2000/08.jpg", cap:"Assembly out of the game for rebuilding"},
+      {src:"photos/flight-2000/09.jpg", cap:"Ultrasonic cleaner for the small parts"},
+      {src:"photos/flight-2000/10.jpg", cap:"Drop target bank, taken apart"},
+      {src:"photos/flight-2000/11.jpg", cap:"Drop target bank, cleaned and reassembled"},
+      {src:"photos/flight-2000/12.jpg", cap:"Board work"},
+      {src:"photos/flight-2000/13.jpg", cap:"Underside of the playfield"},
+      {src:"photos/flight-2000/14.jpg", cap:"Playfield stripped for cleaning"},
+      {src:"photos/flight-2000/15.jpg", cap:"Everything that came off the top"},
+      {src:"photos/flight-2000/16.jpg", cap:"The old rubbers"},
+      {src:"photos/flight-2000/17.jpg", cap:"Wear on the playfield, before the touch-up"},
+      {src:"photos/flight-2000/18.jpg", cap:"Matching paint colours for the touch-up"},
+      {src:"photos/flight-2000/19.jpg", cap:"Cleaned playfield"},
+      {src:"photos/flight-2000/20.jpg", cap:"Back together"},
+      {src:"photos/flight-2000/21.jpg", cap:"The finished playfield"},
+   ]},
 ];
 
-const thumb = p => p.thumb || p.src.replace(/\.jpg$/i, "-t.jpg");
+const isVid = p => /\.mp4$/i.test(p.src);
+const thumb = p => p.thumb || p.src.replace(/\.(jpg|mp4)$/i, "-t.jpg");
 const COLORS = ["#3f918a","#f28322","#e0b526","#1f7f7c","#80b4a0"];
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const placeholder = (m, i) => `<div class="ph"><b>${esc(m.name)}</b><span>${m.year} · ${esc(m.maker)}</span></div>`;
@@ -269,7 +294,7 @@ function render(){
       const i = MACHINES.indexOf(m);
       const cover = m.photos[0] ? `<img src="${esc(thumb(m.photos[0]))}" alt="${esc(m.name)}" loading="lazy">` : placeholder(m);
       const badge = m.status ? `<span class="badge ${/sold/i.test(m.status)?"sold":""}">${esc(m.status)}</span>` : "";
-      const count = m.photos.length > 1 ? `<span class="count">${m.photos.length} photos</span>` : "";
+      const count = m.photos.length > 1 ? `<span class="count">${m.photos.length} photos${m.photos.some(isVid)?" + video":""}</span>` : "";
       const price = m.cat === "sale" ? `<div class="price">${m.price ? esc(m.price) : "Ask for price"}</div>`
                   : m.cat === "project" ? `<div class="price">Ask about a commission</div>`
                   : m.cat === "collection" ? `<div class="price">Not for sale</div>` : "";
@@ -287,7 +312,9 @@ let cur = null, idx = 0;
 function show(n){
   const p = cur.photos; if(!p.length) return;
   idx = (n + p.length) % p.length;
-  document.getElementById("stage").innerHTML = `<img src="${esc(p[idx].src)}" alt="${esc(cur.name)} photo ${idx+1}">` +
+  document.getElementById("stage").innerHTML = (isVid(p[idx])
+      ? `<video src="${esc(p[idx].src)}" poster="${esc(thumb(p[idx]))}" controls playsinline preload="metadata"></video>`
+      : `<img src="${esc(p[idx].src)}" alt="${esc(cur.name)} photo ${idx+1}">`) +
     (p.length > 1 ? `<button class="nav-btn p" aria-label="Previous">‹</button><button class="nav-btn n" aria-label="Next">›</button>` : "");
   document.getElementById("cap").textContent = p[idx].cap || `${idx+1} / ${p.length}`;
   document.querySelectorAll("#strip button").forEach((b,k) => b.classList.toggle("on", k === idx));
@@ -298,7 +325,7 @@ function open(i){
   document.getElementById("dlgMeta").textContent = `${cur.year} · ${cur.maker}`;
   const stage = document.getElementById("stage");
   if(cur.photos.length){
-    document.getElementById("strip").innerHTML = cur.photos.length < 2 ? "" : cur.photos.map((p,k) => `<button data-k="${k}" aria-label="Photo ${k+1}"><img src="${esc(thumb(p))}" alt="" loading="lazy"></button>`).join("");
+    document.getElementById("strip").innerHTML = cur.photos.length < 2 ? "" : cur.photos.map((p,k) => `<button data-k="${k}" class="${isVid(p)?"vid":""}" aria-label="${isVid(p)?"Video":"Photo"} ${k+1}"><img src="${esc(thumb(p))}" alt="" loading="lazy"></button>`).join("");
     show(0);
   } else {
     stage.innerHTML = placeholder(cur); stage.style.background = COLORS[i % COLORS.length];
