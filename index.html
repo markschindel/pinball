@@ -128,6 +128,7 @@ dialog::backdrop{background:rgba(20,20,20,.75)}
   <li><a href="#for-sale">For Sale</a></li>
   <li><a href="#projects">Project Machines</a></li>
   <li><a href="#restorations">Restorations</a></li>
+  <li class="nav-collection"><a href="#collection">My Collection</a></li>
   <li><a href="#contact">Contact</a></li>
 </ul></nav>
 
@@ -160,6 +161,12 @@ dialog::backdrop{background:rgba(20,20,20,.75)}
     <div class="grid" data-cat="restored"></div>
   </section>
 
+  <section id="collection">
+    <h2>My Collection</h2><div class="rule"></div>
+    <p class="lede">The keepers: machines that live in my games room. Not for sale, but always happy to talk about them.</p>
+    <div class="grid" data-cat="collection"></div>
+  </section>
+
   <section id="contact">
     <div class="contact">
       <div><h2 style="margin:0">Get in touch</h2><p style="margin:.3rem 0 0;font:400 1.1rem var(--cond)">Questions, quotes, or to come see a machine.</p></div>
@@ -190,7 +197,7 @@ dialog::backdrop{background:rgba(20,20,20,.75)}
 <script>
 /* =====================================================================
    MACHINE LIST: edit here to add, sell or update machines.
-   cat:     "sale" | "project" | "restored"
+   cat:     "sale" | "project" | "restored" | "collection"
    status:  optional badge, e.g. "Sold", "Pending", "New"
    photos:  [{src:"photos/big-valley/01.jpg", cap:"Playfield after cleaning"}]
             (each photo needs a matching small copy named 01-t.jpg)
@@ -234,6 +241,7 @@ const MACHINES = [
    blurb:"A four-player Gottlieb western from Ed Krynski and Gordon Morison, with three star rollovers, a three-bank of drop targets, an end-of-ball bonus and, unusually, no slingshots. Its two-player version is Mustang.",
    facts:{"Manufacturer":"D. Gottlieb & Co.", "Date":"March 1977", "Model no.":"396", "Type":"Electro-mechanical", "Players":"4",
           "Production":"9,454 (confirmed)", "Theme":"Old West", "Design":"Ed Krynski", "Art":"Gordon Morison", "Sound":"3 chimes, knocker"}, photos:[]},
+  // ---- My Collection (cat:"collection") ----
   // ---- Restorations ----
   {cat:"restored", year:1967, maker:"Gottlieb", name:"King of Diamonds", ipdb:1372,
    blurb:"A Gottlieb classic with a mechanical backbox animation: playing cards drop down on the backglass as you collect them. It has five carousel roto-targets in a wedge-head cabinet, and it was the last Gottlieb to use a printed \"1\" for the thousands digit of the score.",
@@ -255,13 +263,16 @@ const placeholder = (m, i) => `<div class="ph"><b>${esc(m.name)}</b><span>${m.ye
 function render(){
   document.querySelectorAll(".grid").forEach(g => {
     const list = MACHINES.filter(m => m.cat === g.dataset.cat);
+    const sec = g.closest("section"); sec.hidden = !list.length;
+    const nav = document.querySelector(`nav a[href="#${sec.id}"]`); if(nav) nav.parentElement.hidden = !list.length;
     g.innerHTML = list.map((m) => {
       const i = MACHINES.indexOf(m);
       const cover = m.photos[0] ? `<img src="${esc(thumb(m.photos[0]))}" alt="${esc(m.name)}" loading="lazy">` : placeholder(m);
       const badge = m.status ? `<span class="badge ${/sold/i.test(m.status)?"sold":""}">${esc(m.status)}</span>` : "";
       const count = m.photos.length > 1 ? `<span class="count">${m.photos.length} photos</span>` : "";
       const price = m.cat === "sale" ? `<div class="price">${m.price ? esc(m.price) : "Ask for price"}</div>`
-                  : m.cat === "project" ? `<div class="price">Ask about a commission</div>` : "";
+                  : m.cat === "project" ? `<div class="price">Ask about a commission</div>`
+                  : m.cat === "collection" ? `<div class="price">Not for sale</div>` : "";
       return `<article class="card" tabindex="0" role="button" data-i="${i}" aria-label="${esc(m.name)} details">
         <div class="thumb" style="background:${COLORS[i % COLORS.length]}">${cover}${badge}${count}</div>
         <div class="body"><h3>${esc(m.name)}</h3><div class="meta">${m.year} · ${esc(m.maker)}</div>
