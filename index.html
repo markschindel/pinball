@@ -104,6 +104,7 @@ dialog::backdrop{background:rgba(20,20,20,.75)}
 .facts th{text-align:left;font:500 .85rem var(--cond);text-transform:uppercase;letter-spacing:.06em;color:var(--teal-d);padding:.35rem .6rem .35rem 0;vertical-align:top;white-space:nowrap}
 .facts td{padding:.35rem 0;border-bottom:1px solid #e6dcc0}
 .links a{display:inline-block;margin:.6rem .8rem 0 0;font:500 1rem var(--cond)}
+.work-h{font:600 1rem var(--cond);text-transform:uppercase;letter-spacing:.06em;color:var(--teal-d);margin:1rem 0 .2rem}
 .vid{aspect-ratio:16/9;width:100%;border:0;border-radius:10px;margin-top:.8rem}
 </style>
 </head>
@@ -202,6 +203,7 @@ dialog::backdrop{background:rgba(20,20,20,.75)}
    MACHINE LIST: edit here to add, sell or update machines.
    cat:     "sale" | "project" | "restored" | "collection"
    status:  optional badge, e.g. "Sold", "Pending", "New"
+   work:    optional "what I did" paragraph, shown in the gallery
    photos:  [{src:"photos/big-valley/01.jpg", cap:"Playfield after cleaning"}]
             (each photo needs a matching small copy named 01-t.jpg)
    facts:   tombstone details (IPDB etc.), shown as a table
@@ -218,9 +220,39 @@ const MACHINES = [
   {cat:"sale", year:1971, maker:"Gottlieb", name:"Sheriff", ipdb:2116, price:"",
    blurb:"A four-player Gottlieb western with ten drop targets, a bank of parallel rollover lanes down the right side and an end-of-ball bonus. Gottlieb also built it as the two-player Lawman.",
    facts:{"Manufacturer":"D. Gottlieb & Co.", "Date":"September 1971", "Model no.":"319", "Type":"Electro-mechanical", "Players":"4",
-          "Production":"2,900 (confirmed)", "Theme":"Old West, law enforcement", "Design":"Ed Krynski", "Art":"Gordon Morison"}, photos:[{src:"photos/sheriff/01.jpg", cap:"Backglass and playfield"}]},
+          "Production":"2,900 (confirmed)", "Theme":"Old West, law enforcement", "Design":"Ed Krynski", "Art":"Gordon Morison"}, work:"Sheriff got a thorough going-over. The flipper buttons had worn their mounts into the cabinet wood, so they were cleaned up and refitted. The score reels and relay switch stacks were cleaned and adjusted, and a screw that had snapped off under the playfield was drilled out and extracted. A cracked clear plastic guard on the upper playfield was replaced with a new one, cut from acrylic using the original as the template. The ten-target drop bank, the heart of this game, came out, was taken apart, cleaned, rebuilt and its switches re-adjusted. Finally the playfield was stripped, cleaned and put back together, pop bumpers included, with all new rubber. The backglass is now lit with LEDs.",
+   photos:[
+      {src:"photos/sheriff/01.jpg", cap:"Finished, in the games room with the rest of the line-up"},
+      {src:"photos/sheriff/02.jpg", cap:"Flipper button on the cabinet side, as it came"},
+      {src:"photos/sheriff/03.jpg", cap:"Underneath: the button mount had worn into the cabinet wood"},
+      {src:"photos/sheriff/04.jpg", cap:"Flipper button parts, cleaned"},
+      {src:"photos/sheriff/05.jpg", cap:"Lit up at home"},
+      {src:"photos/sheriff/06.jpg", cap:"Score reel unit out for cleaning"},
+      {src:"photos/sheriff/07.jpg", cap:"Score reel switch plate, cleaned"},
+      {src:"photos/sheriff/08.jpg", cap:"Relay switch stacks, cleaned and adjusted"},
+      {src:"photos/sheriff/09.jpg", cap:"A screw snapped off under the playfield"},
+      {src:"photos/sheriff/10.jpg", cap:"Drilling it out with a right-angle drill"},
+      {src:"photos/sheriff/11.jpg", cap:"Out at last"},
+      {src:"photos/sheriff/12.jpg", cap:"The cracked original plastic guard and new acrylic"},
+      {src:"photos/sheriff/13.jpg", cap:"Cutting the new guard, with the old one as the template"},
+      {src:"photos/sheriff/14.jpg", cap:"Old and new"},
+      {src:"photos/sheriff/15.jpg", cap:"New guard installed"},
+      {src:"photos/sheriff/16.jpg", cap:"Drop target bank switches, before"},
+      {src:"photos/sheriff/17.jpg", cap:"Drop target bank switches, cleaned and adjusted"},
+      {src:"photos/sheriff/18.jpg", cap:"The ten-target drop bank, out of the game"},
+      {src:"photos/sheriff/19.jpg", cap:"Drop target bank in pieces"},
+      {src:"photos/sheriff/20.jpg", cap:"Drop target bank, rebuilt"},
+      {src:"photos/sheriff/21.jpg", cap:"Pop bumper parts, cleaned"},
+      {src:"photos/sheriff/22.jpg", cap:"Playfield stripped for cleaning"},
+      {src:"photos/sheriff/23.jpg", cap:"Playfield out of the cabinet"},
+      {src:"photos/sheriff/24.jpg", cap:"Hardware sorted for cleaning"},
+      {src:"photos/sheriff/25.jpg", cap:"Back together"},
+      {src:"photos/sheriff/26.jpg", cap:"The shop supervisor approves"},
+      {src:"photos/sheriff/27.jpg", cap:"Backglass lit, with a game on the reels"},
+   ]},
   {cat:"sale", year:1973, maker:"Williams", name:"Gulfstream", ipdb:1094, price:"",
-   blurb:"A single-player Norm Clark beach game built around the Magic Square in the centre of the playfield: light all four corners for the big award. It and its add-a-ball twin Tropic Fun were the first Williams games with the \"gear\" style pop bumper caps.",
+   blurb:"A single-player Norm Clark beach game built around the Magic Square in the centre of the playfield. Make all four corners before any three-in-a-line for the big bonus, and any single line earns an extra ball. Williams ran DC to the flippers, pop bumpers and slingshots, so they're fast: this is the fastest EM in my collection and a blast to play. It and its add-a-ball twin Tropic Fun were the first Williams games with the \"gear\" style pop bumper caps.",
+   work:"The machine has been thoroughly gone through. The flippers, slingshots and pop bumpers were rebuilt, the playfield cleaned and fitted with new rubber, and the playfield switches and relays cleaned and adjusted. The chime box was rebuilt and tuned, and it has a new lock and key, new glass, a replacement fuse holder, custom apron cards and a new pinball. The backglass looks great: it has some minor flaking, which has been stabilized to prevent any further damage. The playfield is in player condition, cleaned and waxed; it shows wear but plays great. The cabinet is original, with the wear that comes with its 53 years, but it looks quite good. A printed schematic and the game manual are included.",
    facts:{"Manufacturer":"Williams Electronics", "Date":"October 23, 1972", "Model no.":"417", "Type":"Electro-mechanical", "Players":"1",
           "Production":"4,175 (confirmed)", "Theme":"Water sports", "Design":"Norm Clark", "Art":"Christian Marche", "Sound":"3 chimes, knocker"}, photos:[{src:"photos/gulfstream/01.jpg", cap:"Backglass and playfield"}]},
   {cat:"sale", year:1976, maker:"Gottlieb", name:"Buccaneer", ipdb:391, price:"",
@@ -374,6 +406,7 @@ function open(i){
     document.getElementById("strip").innerHTML = ""; document.getElementById("cap").textContent = "Photos coming soon.";
   }
   let d = cur.blurb ? `<p>${esc(cur.blurb)}</p>` : "";
+  if(cur.work) d += `<h4 class="work-h">The work</h4><p>${esc(cur.work)}</p>`;
   if(cur.cat === "sale") d += `<p class="price">${cur.price ? esc(cur.price) : '<a class="contact-link" href="#contact">Contact me for a price</a>'}</p>`;
   if(cur.cat === "project") d += `<p>Available as a commission, from a playable tune-up to a full restoration. </p><p class="price"><a class="contact-link" href="#contact">Contact me about a commission</a></p>`;
   if(cur.video) d += `<iframe class="vid" src="https://www.youtube-nocookie.com/embed/${esc(cur.video)}" allowfullscreen loading="lazy" title="${esc(cur.name)} video"></iframe>`;
