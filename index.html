@@ -36,6 +36,15 @@ img{max-width:100%;display:block}
 .hero h1,.hero p{position:relative;z-index:1}
 @media(max-width:700px){.spark{width:46px;opacity:.9}.spark.l{left:-4px;top:150px}.spark.r{width:56px;right:-6px;top:4px}}
 .playfield{display:block;width:100%;max-width:900px;margin:1rem auto 0}
+@media(max-width:700px){
+  .hero{padding:1.1rem 1rem 0}
+  .hero h1{font-size:clamp(2.6rem,12vw,3.4rem)}
+  .hero .tag{font-size:1rem;margin-top:.4rem}
+  .hero .loc{font-size:.85rem;margin-top:.25rem}
+  .playfield{height:64px;width:auto;margin:.5rem auto 0}
+  section{padding-top:1.6rem}
+  .lede{margin-bottom:.9rem}
+}
 nav{position:sticky;top:0;z-index:5;background:var(--orange);border-top:4px solid var(--teal-d);border-bottom:4px solid var(--teal-d)}
 nav ul{list-style:none;margin:0 auto;padding:.4rem .8rem;display:flex;overflow-x:auto;white-space:nowrap;scrollbar-width:none;justify-content:safe center;gap:.2rem 1.2rem;max-width:1100px}
 nav a{font:500 1rem var(--cond);color:var(--ink);text-decoration:none;text-transform:uppercase;letter-spacing:.05em;padding:.3rem .2rem;display:inline-block}
@@ -132,8 +141,8 @@ dialog::backdrop{background:rgba(20,20,20,.75)}
 </header>
 
 <nav><ul>
-  <li><a href="#services">Services</a></li>
   <li><a href="#for-sale">For Sale</a></li>
+  <li><a href="#services">Services</a></li>
   <li><a href="#projects">Project Machines</a></li>
   <li><a href="#restorations">Restorations</a></li>
   <li class="nav-collection"><a href="#collection">My Collection</a></li>
@@ -141,6 +150,12 @@ dialog::backdrop{background:rgba(20,20,20,.75)}
 </ul></nav>
 
 <main>
+  <section id="for-sale">
+    <h2>For Sale</h2><div class="rule"></div>
+    <p class="lede">Shopped, playing machines ready for a new home. Tap any machine for photos and details.</p>
+    <div class="grid" data-cat="sale"></div>
+  </section>
+
   <section id="services">
     <h2>Services</h2><div class="rule"></div>
     <p class="lede">Classic pinball from the electro-mechanical era through early solid-state, kept playing the way it was meant to.</p>
@@ -149,12 +164,6 @@ dialog::backdrop{background:rgba(20,20,20,.75)}
       <div class="svc"><h3>Shop Work</h3><p>For more serious jobs I'll pick up your machine, bring it to the shop and deliver it back when it's done, within a reasonable distance of Peterborough.</p></div>
       <div class="svc"><h3>Commissioned Restorations</h3><p>Buy one of my project machines and choose how far to take it, from "just get it playing well" to a full restoration.</p></div>
     </div>
-  </section>
-
-  <section id="for-sale">
-    <h2>For Sale</h2><div class="rule"></div>
-    <p class="lede">Shopped, playing machines ready for a new home. Tap any machine for photos and details.</p>
-    <div class="grid" data-cat="sale"></div>
   </section>
 
   <section id="projects">
@@ -366,7 +375,8 @@ const placeholder = (m, i) => `<div class="ph"><b>${esc(m.name)}</b><span>${m.ye
 
 function render(){
   document.querySelectorAll(".grid").forEach(g => {
-    const list = MACHINES.filter(m => m.cat === g.dataset.cat);
+    const sold = m => /sold/i.test(m.status||"") ? 1 : 0;
+    const list = MACHINES.filter(m => m.cat === g.dataset.cat).sort((a,b) => sold(a)-sold(b));
     const sec = g.closest("section"); sec.hidden = !list.length;
     const nav = document.querySelector(`nav a[href="#${sec.id}"]`); if(nav) nav.parentElement.hidden = !list.length;
     g.innerHTML = list.map((m) => {
