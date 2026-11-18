@@ -217,7 +217,7 @@ const MACHINES = [
    blurb:"A four-player Bally western and a real oddity: the only Bally electro-mechanical with multiball (three balls) and the only one with 3-inch flippers. It also has four pop bumpers, two kick-out holes and an up-post between the flippers.",
    facts:{"Manufacturer":"Bally Manufacturing Corp.", "Date":"May 1970", "Model no.":"880", "Type":"Electro-mechanical", "Players":"4",
           "Production":"2,500 (confirmed)", "Theme":"Old West", "Design":"Ted Zale", "Art":"Christian Marche"}, photos:[{src:"photos/big-valley/01.jpg", cap:"Backglass and playfield"}]},
-  {cat:"sale", year:1971, maker:"Gottlieb", name:"Sheriff", ipdb:2116, price:"",
+  {cat:"sale", year:1971, maker:"Gottlieb", name:"Sheriff", ipdb:2116, price:"", status:"Sold",
    blurb:"A four-player Gottlieb western with ten drop targets, a bank of parallel rollover lanes down the right side and an end-of-ball bonus. Gottlieb also built it as the two-player Lawman.",
    facts:{"Manufacturer":"D. Gottlieb & Co.", "Date":"September 1971", "Model no.":"319", "Type":"Electro-mechanical", "Players":"4",
           "Production":"2,900 (confirmed)", "Theme":"Old West, law enforcement", "Design":"Ed Krynski", "Art":"Gordon Morison"}, work:"Sheriff got a thorough going-over. The flipper buttons had worn their mounts into the cabinet wood, so they were cleaned up and refitted. The score reels and relay switch stacks were cleaned and adjusted, and a screw that had snapped off under the playfield was drilled out and extracted. A cracked clear plastic guard on the upper playfield was replaced with a new one, cut from acrylic using the original as the template. The ten-target drop bank, the heart of this game, came out, was taken apart, cleaned, rebuilt and its switches re-adjusted. Finally the playfield was stripped, cleaned and put back together, pop bumpers included, with all new rubber. The backglass is now lit with LEDs.",
@@ -370,7 +370,8 @@ function render(){
       const cover = m.photos[0] ? `<img src="${esc(thumb(m.photos[0]))}" alt="${esc(m.name)}" loading="lazy">` : placeholder(m);
       const badge = m.status ? `<span class="badge ${/sold/i.test(m.status)?"sold":""}">${esc(m.status)}</span>` : "";
       const count = m.photos.length > 1 ? `<span class="count">${m.photos.length} photos${m.photos.some(isVid)?" + video":""}</span>` : "";
-      const price = m.cat === "sale" ? `<div class="price">${m.price ? esc(m.price) : '<a class="contact-link" href="#contact">Contact me for a price</a>'}</div>`
+      const price = /sold/i.test(m.status||"") ? `<div class="price">Sold</div>`
+                  : m.cat === "sale" ? `<div class="price">${m.price ? esc(m.price) : '<a class="contact-link" href="#contact">Contact me for a price</a>'}</div>`
                   : m.cat === "project" ? `<div class="price"><a class="contact-link" href="#contact">Contact me about a commission</a></div>`
                   : m.cat === "collection" ? `<div class="price">Not for sale</div>` : "";
       return `<article class="card" tabindex="0" role="button" data-i="${i}" aria-label="${esc(m.name)} details">
@@ -408,7 +409,8 @@ function open(i){
   }
   let d = cur.blurb ? `<p>${esc(cur.blurb)}</p>` : "";
   if(cur.work) d += `<h4 class="work-h">The work</h4><p>${esc(cur.work)}</p>`;
-  if(cur.cat === "sale") d += `<p class="price">${cur.price ? esc(cur.price) : '<a class="contact-link" href="#contact">Contact me for a price</a>'}</p>`;
+  if(/sold/i.test(cur.status||"")) d += `<p class="price">Sold</p>`;
+  else if(cur.cat === "sale") d += `<p class="price">${cur.price ? esc(cur.price) : '<a class="contact-link" href="#contact">Contact me for a price</a>'}</p>`;
   if(cur.cat === "project") d += `<p>Available as a commission, from a playable tune-up to a full restoration. </p><p class="price"><a class="contact-link" href="#contact">Contact me about a commission</a></p>`;
   if(cur.video) d += `<iframe class="vid" src="https://www.youtube-nocookie.com/embed/${esc(cur.video)}" allowfullscreen loading="lazy" title="${esc(cur.name)} video"></iframe>`;
   document.getElementById("desc").innerHTML = d;
